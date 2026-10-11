@@ -1,7 +1,17 @@
-import { Component, ElementRef, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  Injector,
+  signal,
+  untracked,
+} from '@angular/core';
 import { Cell } from '../cell/cell';
 import { GameSession } from '../game-session';
 import {
+  BOARD_KEYS,
   clickSuppressionResetMs,
   initialBoardInputState,
   longPressMs,
@@ -30,8 +40,26 @@ export class Board {
   readonly #host = inject(ElementRef<HTMLElement>);
 
   readonly #input = signal(initialBoardInputState());
+  readonly #injector = inject(Injector);
   #longPressTimerId: number | null = null;
   #suppressionTimerId: number | null = null;
+
+  constructor() {
+    // After a reset (restart or level switch), put keyboard focus back on the board.
+    let seenResets = this.session.resetCount();
+    effect(() => {
+      const resets = this.session.resetCount();
+      if (resets === seenResets) {
+        return;
+      }
+      seenResets = resets;
+      untracked(() => {
+        const cellCount = this.session.game().cells.length;
+        const index = Math.min(this.#input().focusedIndex, cellCount - 1);
+        afterNextRender(() => this.#focusCell(index), { injector: this.#injector });
+      });
+    });
+  }
 
   protected onPrimaryAction(index: number): void {
     this.#dispatch({ kind: 'click', index });
@@ -50,17 +78,13 @@ export class Board {
   }
 
   protected onKeydown(event: KeyboardEvent, index: number): void {
-    if (
-      event.key === 'ArrowLeft' ||
-      event.key === 'ArrowRight' ||
-      event.key === 'ArrowUp' ||
-      event.key === 'ArrowDown' ||
-      event.key.toLowerCase() === 'f' ||
-      event.key === 'Enter'
-    ) {
+    if (event.altKey || event.metaKey) {
+      return;
+    }
+    if (BOARD_KEYS.has(event.key)) {
       event.preventDefault();
     }
-    this.#dispatch({ kind: 'key', index, key: event.key });
+    this.#dispatch({ kind: 'key', index, key: event.key, ctrlKey: event.ctrlKey });
   }
 
   protected tabIndexFor(index: number): number {
@@ -71,7 +95,7 @@ export class Board {
     event:
       | { kind: 'click'; index: number }
       | { kind: 'contextFlag'; index: number }
-      | { kind: 'key'; index: number; key: string }
+      | { kind: 'key'; index: number; key: string; ctrlKey: boolean }
       | { kind: 'pointerDown'; index: number; pointerType: string }
       | { kind: 'pointerEnd'; index: number; pointerType: string },
   ): void {
@@ -83,10 +107,7 @@ export class Board {
     }
   }
 
-  #applySchedules(
-    longPressIndex: number | null,
-    clearSuppressionIndex: number | null,
-  ): void {
+  #applySchedules(longPressIndex: number | null, clearSuppressionIndex: number | null): void {
     this.#clearLongPressTimer();
     if (longPressIndex !== null) {
       this.#longPressTimerId = window.setTimeout(() => {
