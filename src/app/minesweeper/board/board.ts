@@ -83,10 +83,7 @@ export class Board {
     }
   }
 
-  #applySchedules(
-    longPressIndex: number | null,
-    clearSuppressionIndex: number | null,
-  ): void {
+  #applySchedules(longPressIndex: number | null, clearSuppressionIndex: number | null): void {
     this.#clearLongPressTimer();
     if (longPressIndex !== null) {
       this.#longPressTimerId = window.setTimeout(() => {

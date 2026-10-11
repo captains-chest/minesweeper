@@ -37,7 +37,7 @@
 }
 
 .mono {
-  font-family: "DM Mono", monospace;
+  font-family: 'DM Mono', monospace;
 }
 
 .status-pill {
@@ -60,22 +60,22 @@
   box-shadow: 0 0 11px color-mix(in srgb, var(--accent) 65%, transparent);
 }
 
-.status-pill[data-status="won"] {
+.status-pill[data-status='won'] {
   color: var(--accent);
   border-color: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
-.status-pill[data-status="lost"] {
+.status-pill[data-status='lost'] {
   color: var(--coral);
   border-color: color-mix(in srgb, var(--coral) 35%, transparent);
 }
 
-.status-pill[data-status="lost"] .status-dot {
+.status-pill[data-status='lost'] .status-dot {
   background: var(--coral);
   box-shadow: 0 0 11px color-mix(in srgb, var(--coral) 65%, transparent);
 }
 
-.status-pill[data-status="paused"] .status-dot {
+.status-pill[data-status='paused'] .status-dot {
   background: var(--violet);
   box-shadow: 0 0 11px color-mix(in srgb, var(--violet) 65%, transparent);
 }

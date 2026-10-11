@@ -9,9 +9,8 @@ import type { DifficultyKey } from '../types';
 })
 export class GameToolbar {
   readonly difficulty = input.required<DifficultyKey>();
-  readonly difficultyEntries = input.required<
-    ReadonlyArray<readonly [DifficultyKey, Difficulty]>
-  >();
+  readonly difficultyEntries =
+    input.required<ReadonlyArray<readonly [DifficultyKey, Difficulty]>>();
 
   readonly difficultyChange = output<DifficultyKey>();
   readonly newGame = output<void>();

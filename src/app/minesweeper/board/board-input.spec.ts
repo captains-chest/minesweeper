@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createMinefield } from '../minefield';
-import {
-  initialBoardInputState,
-  reduceBoardInput,
-  tabIndexFor,
-} from './board-input';
+import { initialBoardInputState, reduceBoardInput, tabIndexFor } from './board-input';
 
 describe('board input policy', () => {
   it('emits primary on click when not suppressed', () => {

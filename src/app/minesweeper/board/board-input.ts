@@ -56,12 +56,7 @@ const neighborIndex = (
   const column = index % game.columns;
   const nextRow = row + delta[0];
   const nextColumn = column + delta[1];
-  if (
-    nextRow < 0 ||
-    nextRow >= game.rows ||
-    nextColumn < 0 ||
-    nextColumn >= game.columns
-  ) {
+  if (nextRow < 0 || nextRow >= game.rows || nextColumn < 0 || nextColumn >= game.columns) {
     return null;
   }
   return nextRow * game.columns + nextColumn;

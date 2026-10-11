@@ -3,5 +3,5 @@
 {
   "name": "minesweeper",
   "compatibility_date": "2026-09-26",
-  "pages_build_output_dir": "dist/minesweeper/browser"
+  "pages_build_output_dir": "dist/minesweeper/browser",
 }
