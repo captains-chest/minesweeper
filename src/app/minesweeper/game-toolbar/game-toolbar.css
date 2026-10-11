@@ -112,3 +112,9 @@
     display: none;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .new-game-button:hover {
+    transform: none;
+  }
+}

@@ -10,7 +10,12 @@ export type BoardIntent =
 export type BoardInputEvent =
   | { readonly kind: 'click'; readonly index: number }
   | { readonly kind: 'contextFlag'; readonly index: number }
-  | { readonly kind: 'key'; readonly index: number; readonly key: string }
+  | {
+      readonly kind: 'key';
+      readonly index: number;
+      readonly key: string;
+      readonly ctrlKey?: boolean;
+    }
   | { readonly kind: 'pointerDown'; readonly index: number; readonly pointerType: string }
   | { readonly kind: 'pointerEnd'; readonly index: number; readonly pointerType: string }
   | { readonly kind: 'longPressFire'; readonly index: number }
@@ -60,6 +65,52 @@ const neighborIndex = (
     return null;
   }
   return nextRow * game.columns + nextColumn;
+};
+
+/** Keys the board handles itself (the browser default is suppressed for these). */
+export const BOARD_KEYS: ReadonlySet<string> = new Set([
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'ArrowDown',
+  'Home',
+  'End',
+  'PageUp',
+  'PageDown',
+  'Enter',
+  ' ',
+  'f',
+  'F',
+]);
+
+/**
+ * Where a navigation key moves focus: a cell index, null when blocked at the edge,
+ * or undefined when the key is not a navigation key.
+ */
+export const navigationTarget = (
+  game: Minefield,
+  index: number,
+  key: string,
+  ctrlKey = false,
+): number | null | undefined => {
+  const delta = movement[key];
+  if (delta) {
+    return neighborIndex(game, index, delta);
+  }
+  const row = Math.floor(index / game.columns);
+  const column = index % game.columns;
+  switch (key) {
+    case 'Home':
+      return ctrlKey ? 0 : row * game.columns;
+    case 'End':
+      return ctrlKey ? game.cells.length - 1 : row * game.columns + game.columns - 1;
+    case 'PageUp':
+      return column;
+    case 'PageDown':
+      return (game.rows - 1) * game.columns + column;
+    default:
+      return undefined;
+  }
 };
 
 export const reduceBoardInput = (
@@ -159,10 +210,9 @@ export const reduceBoardInput = (
     };
   }
 
-  const delta = movement[event.key];
-  if (delta) {
-    const nextIndex = neighborIndex(game, event.index, delta);
-    if (nextIndex === null) {
+  const nextIndex = navigationTarget(game, event.index, event.key, event.ctrlKey ?? false);
+  if (nextIndex !== undefined) {
+    if (nextIndex === null || nextIndex === event.index) {
       return { state, intents: [], ...idle };
     }
     return {
@@ -172,7 +222,7 @@ export const reduceBoardInput = (
     };
   }
 
-  if (event.key === 'Enter' && game.cells[event.index]?.isRevealed) {
+  if (event.key === 'Enter' || event.key === ' ') {
     return {
       state,
       intents: [{ type: 'primary', index: event.index }],

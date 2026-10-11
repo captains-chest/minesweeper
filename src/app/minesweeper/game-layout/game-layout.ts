@@ -5,11 +5,12 @@ import { GameSession } from '../game-session';
 import { GameToolbar } from '../game-toolbar/game-toolbar';
 import { InfoColumn } from '../info-column/info-column';
 import { PlayerRecord } from '../player-record';
+import { ShortcutsHelp } from '../shortcuts-help/shortcuts-help';
 import type { DifficultyKey } from '../types';
 
 @Component({
   selector: 'mine-game-layout',
-  imports: [GameToolbar, GameCard, InfoColumn],
+  imports: [GameToolbar, GameCard, InfoColumn, ShortcutsHelp],
   templateUrl: './game-layout.html',
   styleUrl: './game-layout.css',
 })

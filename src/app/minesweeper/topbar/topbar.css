@@ -100,3 +100,9 @@
     display: none;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-button:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,18 @@
+<details class="shortcuts" [open]="open()" (toggle)="onToggle($event)">
+  <summary [attr.aria-keyshortcuts]="keyshortcuts">Keyboard shortcuts</summary>
+  <dl class="shortcut-list">
+    @for (shortcut of shortcuts; track shortcut.action) {
+      <div class="shortcut-row">
+        <dt>
+          @for (key of shortcut.keys; track key; let last = $last) {
+            <kbd>{{ key }}</kbd>
+            @if (!last) {
+              <span class="key-separator" aria-hidden="true">/</span>
+            }
+          }
+        </dt>
+        <dd>{{ shortcut.action }}</dd>
+      </div>
+    }
+  </dl>
+</details>

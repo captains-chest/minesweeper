@@ -29,10 +29,15 @@ export class GameSession {
   readonly #flagMode = signal(false);
   readonly #announcement = signal('');
   readonly #now = signal(this.#clock.now());
+  readonly #resetCount = signal(0);
+  readonly #shortcutHelpOpen = signal(false);
 
   readonly game = this.#game.asReadonly();
   readonly flagMode = this.#flagMode.asReadonly();
   readonly announcement = this.#announcement.asReadonly();
+  /** Increments on every reset so views can restore focus to the new board. */
+  readonly resetCount = this.#resetCount.asReadonly();
+  readonly shortcutHelpOpen = this.#shortcutHelpOpen.asReadonly();
 
   readonly difficulty = computed(() => this.#game().difficulty);
   readonly status = computed(() => this.#game().status);
@@ -56,11 +61,16 @@ export class GameSession {
     this.#game.set(createMinefield(nextDifficulty));
     this.#flagMode.set(false);
     this.#now.set(this.#clock.now());
+    this.#resetCount.update((count) => count + 1);
     this.#announce(`${DIFFICULTIES[nextDifficulty].label} game ready.`);
   }
 
   setDifficulty(difficulty: DifficultyKey): void {
     this.reset(difficulty);
+  }
+
+  toggleShortcutHelp(open: boolean = !this.#shortcutHelpOpen()): void {
+    this.#shortcutHelpOpen.set(open);
   }
 
   toggleFlagMode(): void {
@@ -74,11 +84,13 @@ export class GameSession {
     if (game.status === 'paused') {
       this.#game.set(resumeGame(game, now));
       this.#startTimer();
+      this.#announce('Game resumed.');
       return;
     }
     if (game.status === 'playing') {
       this.#game.set(pauseGame(game, now));
       this.#clock.stopTick();
+      this.#announce('Game paused.');
     }
   }
 

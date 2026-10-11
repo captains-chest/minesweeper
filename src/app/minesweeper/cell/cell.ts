@@ -24,7 +24,9 @@ export class Cell {
 
   readonly row = computed(() => Math.floor(this.cell().index / this.columns()) + 1);
   readonly column = computed(() => (this.cell().index % this.columns()) + 1);
-  readonly label = computed(() => getCellLabel(this.cell(), this.explodedIndex()));
+  readonly label = computed(() =>
+    getCellLabel(this.cell(), this.explodedIndex(), this.columns(), this.status()),
+  );
   readonly classList = computed(() =>
     getCellClasses(this.cell(), this.explodedIndex(), this.status()).join(' '),
   );

@@ -26,7 +26,13 @@
       Right click / long press to flag
       <span class="hint-separator">·</span>
       Click a number to chord
+      <span class="hint-separator">·</span>
+      Press ? for keyboard shortcuts
     </p>
+    <mine-shortcuts-help
+      [open]="session.shortcutHelpOpen()"
+      (openChange)="session.toggleShortcutHelp($event)"
+    />
   </div>
 
   <mine-info-column
