@@ -10,12 +10,7 @@
       <span class="flag-glyph" aria-hidden="true">⚑</span>
       Flag mode: {{ flagMode() ? 'on' : 'off' }}
     </button>
-    <button
-      class="text-button"
-      type="button"
-      [disabled]="!pauseEnabled()"
-      (click)="onPause()"
-    >
+    <button class="text-button" type="button" [disabled]="!pauseEnabled()" (click)="onPause()">
       @if (paused()) {
         <span class="pause-glyph" aria-hidden="true">▶</span>
         Resume

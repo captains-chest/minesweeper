@@ -1,10 +1,7 @@
 import type { Cell } from '../models';
 import type { GameStatus } from '../types';
 
-export const getCellLabel = (
-  cell: Cell,
-  explodedIndex: number | undefined,
-): string => {
+export const getCellLabel = (cell: Cell, explodedIndex: number | undefined): string => {
   if (cell.isRevealed && cell.isMine) {
     return cell.index === explodedIndex ? 'Exploded mine' : 'Mine';
   }
@@ -43,10 +40,7 @@ export const getCellClasses = (
   return classes;
 };
 
-export const getCellDisplay = (
-  cell: Cell,
-  explodedIndex: number | undefined,
-): string => {
+export const getCellDisplay = (cell: Cell, explodedIndex: number | undefined): string => {
   if (cell.isRevealed && !cell.isMine && cell.adjacentMines > 0) {
     return String(cell.adjacentMines);
   }

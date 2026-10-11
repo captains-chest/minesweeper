@@ -44,9 +44,7 @@ export class GameSession {
   readonly safeRemaining = computed(() => getSafeRemaining(this.#game()));
   readonly isWon = computed(() => this.status() === 'won');
   readonly isPaused = computed(() => this.status() === 'paused');
-  readonly pauseEnabled = computed(
-    () => this.status() === 'playing' || this.status() === 'paused',
-  );
+  readonly pauseEnabled = computed(() => this.status() === 'playing' || this.status() === 'paused');
   readonly difficulties = DIFFICULTIES;
 
   constructor() {
