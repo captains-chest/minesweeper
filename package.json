@@ -7,6 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "deploy": "pnpm run build && wrangler pages deploy dist/minesweeper/browser --project-name minesweeper --branch main",
     "preview": "pnpm run build && wrangler pages dev dist/minesweeper/browser"
   },
