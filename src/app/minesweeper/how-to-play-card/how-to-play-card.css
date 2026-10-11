@@ -28,7 +28,7 @@
 }
 
 .numbered-icon {
-  font-family: "DM Mono", monospace;
+  font-family: 'DM Mono', monospace;
   font-size: 10px;
 }
 
@@ -53,7 +53,7 @@
 
 .how-list li > span {
   color: var(--accent);
-  font-family: "DM Mono", monospace;
+  font-family: 'DM Mono', monospace;
   font-size: 10px;
 }
 

@@ -1,10 +1,6 @@
 import type { BestTimes, RunStats, RunStatsByDifficulty } from '../models';
 import type { DifficultyKey, RunStatKey, Theme } from '../types';
-import {
-  BEST_TIMES_STORAGE_KEY,
-  RUN_STATS_STORAGE_KEY,
-  THEME_STORAGE_KEY,
-} from './constants';
+import { BEST_TIMES_STORAGE_KEY, RUN_STATS_STORAGE_KEY, THEME_STORAGE_KEY } from './constants';
 
 const readStoredObject = (storage: Storage, key: string): Record<string, unknown> => {
   try {
@@ -58,11 +54,7 @@ export const readRunStats = (storage: Storage): RunStatsByDifficulty => {
   const raw = readStoredObject(storage, RUN_STATS_STORAGE_KEY);
   const parsed: RunStatsByDifficulty = {};
   for (const [key, value] of Object.entries(raw)) {
-    if (
-      key !== 'beginner' &&
-      key !== 'intermediate' &&
-      key !== 'expert'
-    ) {
+    if (key !== 'beginner' && key !== 'intermediate' && key !== 'expert') {
       continue;
     }
     if (!value || typeof value !== 'object' || Array.isArray(value)) {

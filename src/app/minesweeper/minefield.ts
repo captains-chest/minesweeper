@@ -4,29 +4,17 @@ import type { DifficultyKey, Random } from './types';
 
 type DifficultyConfig = (typeof DIFFICULTIES)[DifficultyKey];
 
-const getRowAndColumn = (
-  index: number,
-  columns: number,
-): { row: number; column: number } => ({
+const getRowAndColumn = (index: number, columns: number): { row: number; column: number } => ({
   row: Math.floor(index / columns),
   column: index % columns,
 });
 
-export const getNeighborIndices = (
-  index: number,
-  rows: number,
-  columns: number,
-): number[] => {
+export const getNeighborIndices = (index: number, rows: number, columns: number): number[] => {
   const { row, column } = getRowAndColumn(index, columns);
   return NEIGHBOR_OFFSETS.flatMap(([rowOffset, columnOffset]) => {
     const neighborRow = row + rowOffset;
     const neighborColumn = column + columnOffset;
-    if (
-      neighborRow < 0 ||
-      neighborRow >= rows ||
-      neighborColumn < 0 ||
-      neighborColumn >= columns
-    ) {
+    if (neighborRow < 0 || neighborRow >= rows || neighborColumn < 0 || neighborColumn >= columns) {
       return [];
     }
     return [neighborRow * columns + neighborColumn];
@@ -62,10 +50,10 @@ const shuffle = (items: readonly number[], random: Random): number[] => {
   const shuffled = [...items];
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
     const swapIndex = Math.floor(random() * (index + 1));
-    [shuffled[index], shuffled[swapIndex]] = [
-      shuffled[swapIndex]!,
-      shuffled[index]!,
-    ] as [number, number];
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex]!, shuffled[index]!] as [
+      number,
+      number,
+    ];
   }
   return shuffled;
 };
@@ -267,9 +255,7 @@ export const chordCell = (
     (neighborIndex) =>
       !state.cells[neighborIndex]!.isRevealed && !state.cells[neighborIndex]!.isFlagged,
   );
-  const explodedIndex = cellsToReveal.find(
-    (neighborIndex) => state.cells[neighborIndex]!.isMine,
-  );
+  const explodedIndex = cellsToReveal.find((neighborIndex) => state.cells[neighborIndex]!.isMine);
   if (explodedIndex !== undefined) {
     return {
       minefield: revealMines(state, explodedIndex, now),

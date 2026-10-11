@@ -24,7 +24,7 @@
   --radius-md: 12px;
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   color-scheme: light;
   --bg: #f2f4ef;
   --bg-deep: #e7ebe4;
@@ -60,11 +60,13 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-  background: radial-gradient(circle at 12% 0%, rgba(201, 242, 109, 0.06), transparent 29rem),
-    var(--bg);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(201, 242, 109, 0.06), transparent 29rem), var(--bg);
   color: var(--text);
-  font-family: "Avenir Next", "Inter", system-ui, sans-serif;
-  transition: background 220ms ease, color 220ms ease;
+  font-family: 'Avenir Next', 'Inter', system-ui, sans-serif;
+  transition:
+    background 220ms ease,
+    color 220ms ease;
 }
 
 button,

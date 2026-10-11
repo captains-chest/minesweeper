@@ -14,7 +14,7 @@ button {
   background: var(--cell);
   color: var(--text);
   cursor: pointer;
-  font-family: "DM Mono", monospace;
+  font-family: 'DM Mono', monospace;
   font-size: 13px;
   font-weight: 500;
   line-height: 1;
@@ -43,7 +43,7 @@ button.is-flagged {
 }
 
 button.is-flagged::before {
-  content: "⚑";
+  content: '⚑';
   font-family: system-ui, sans-serif;
   font-size: 15px;
   transform: translateY(-1px);
@@ -60,7 +60,7 @@ button.is-exploded {
 }
 
 button.is-exploded::before {
-  content: "✹";
+  content: '✹';
   font-family: system-ui, sans-serif;
   font-size: 17px;
 }
@@ -70,31 +70,31 @@ button.is-wrong-flag {
 }
 
 button.is-wrong-flag::before {
-  content: "×";
+  content: '×';
   font-family: system-ui, sans-serif;
   font-size: 17px;
 }
 
-button[data-number="1"] {
+button[data-number='1'] {
   color: var(--blue);
 }
 
-button[data-number="2"] {
+button[data-number='2'] {
   color: var(--accent);
 }
 
-button[data-number="3"] {
+button[data-number='3'] {
   color: var(--coral);
 }
 
-button[data-number="4"] {
+button[data-number='4'] {
   color: var(--violet);
 }
 
-button[data-number="5"],
-button[data-number="6"],
-button[data-number="7"],
-button[data-number="8"] {
+button[data-number='5'],
+button[data-number='6'],
+button[data-number='7'],
+button[data-number='8'] {
   color: #e8a8ca;
 }
 

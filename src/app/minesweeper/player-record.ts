@@ -1,9 +1,5 @@
 import { inject, Service, signal } from '@angular/core';
-import {
-  BEST_METER_MIN_PERCENT,
-  BEST_METER_TIME_SCALE,
-  DIFFICULTIES,
-} from './constants';
+import { BEST_METER_MIN_PERCENT, BEST_METER_TIME_SCALE, DIFFICULTIES } from './constants';
 import type { RunStats } from './models';
 import { PLAYER_STORE } from './player-store';
 import { formatTime } from './format';
@@ -56,10 +52,7 @@ export class PlayerRecord {
     if (bestTime === undefined) {
       return 0;
     }
-    return Math.max(
-      BEST_METER_MIN_PERCENT,
-      Math.min(100, 100 - bestTime / BEST_METER_TIME_SCALE),
-    );
+    return Math.max(BEST_METER_MIN_PERCENT, Math.min(100, 100 - bestTime / BEST_METER_TIME_SCALE));
   }
 
   recordPlayed(difficulty: DifficultyKey): void {
@@ -69,11 +62,7 @@ export class PlayerRecord {
   recordWin(difficulty: DifficultyKey, elapsedSeconds: number): RecordWinResult {
     this.#runStats.set(this.#store.incrementRunStat(this.#runStats(), difficulty, 'wins'));
     const previousBestTimes = this.#bestTimes();
-    const nextBestTimes = this.#store.writeBestTime(
-      previousBestTimes,
-      difficulty,
-      elapsedSeconds,
-    );
+    const nextBestTimes = this.#store.writeBestTime(previousBestTimes, difficulty, elapsedSeconds);
     const isNewBest = nextBestTimes !== previousBestTimes;
     this.#bestTimes.set(nextBestTimes);
     const bestTime = nextBestTimes[difficulty] ?? elapsedSeconds;

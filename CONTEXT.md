@@ -38,4 +38,3 @@ _Avoid_: Mode (alone), appearance as a run concern
 - **Player record → store / theme surface**: persistence and applying theme to the chrome sit behind adapters; the player record exposes prefs and history, not `localStorage` details.
 - **Screen labels**: run-facing labels and live-region announcements belong to the game session; cell face (label/classes/glyph) belongs with the cell view. There is no separate presentation bag as a domain concept.
 - **Minefield rules**: pure transitions over minefield state (create, reveal, flag, chord, pause, resume, elapsed). The game session applies those transitions; it does not re-implement seeding or flood fill.
-
