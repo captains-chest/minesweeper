@@ -2,7 +2,7 @@
 
 Single-player minefield clearing: a live run on a board, plus the player's lasting record and preferences.
 
-Play it at https://minesweeper.play.captains-chest.com, part of the [Captain's Chest Playground](https://play.captains-chest.com).
+Play it at https://minesweeper.captains-chest.com, part of the [Captain's Chest Playground](https://captains-chest.com/play).
 Built with Angular, pnpm and TypeScript; the domain language is in [CONTEXT.md](CONTEXT.md).
 
 ## Develop
