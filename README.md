@@ -10,7 +10,10 @@ Built with Angular, pnpm and TypeScript; the domain language is in [CONTEXT.md](
 ```bash
 pnpm install
 pnpm start     # http://localhost:4200
-pnpm test      # Vitest
+pnpm test      # vp test (Vitest 5 via Vite+)
+pnpm check     # vp check: Oxfmt + Oxlint + type-check
+pnpm format    # vp fmt (Oxfmt)
+pnpm e2e       # Playwright smoke tests
 ```
 
 ## Build and deploy

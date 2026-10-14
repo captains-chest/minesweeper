@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vite-plus/test';
 import { MemoryPlayerStore } from './player-store';
 import type { PlayerStore } from './player-store';
 import type { ThemeSurface } from './theme-surface';

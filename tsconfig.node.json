@@ -1,0 +1,8 @@
+/* Type-checking for Node-side tooling: Playwright config and e2e tests. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["playwright.config.ts", "vite.config.ts", "e2e/**/*.ts", "scripts/**/*.mjs"]
+}

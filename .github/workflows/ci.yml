@@ -34,8 +34,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check formatting
-        run: pnpm format:check
+      - name: Check Vite+ catalog is in sync
+        run: node scripts/check-vite-plus-sync.mjs
+
+      - name: Format, lint and type-check
+        run: pnpm exec vp check
 
       - name: Run tests
         run: pnpm test
