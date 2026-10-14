@@ -13,9 +13,20 @@ updates:
       - dependency-name: 'typescript'
         update-types: ['version-update:semver-major']
     groups:
+      # vite-plus pins its own Vite core; the `vite` catalog alias in pnpm-workspace.yaml must
+      # move with it, so keep them in one PR. CI fails if they drift apart.
+      vite-plus:
+        patterns:
+          - 'vite-plus'
+          - 'vite'
+          - '@voidzero-dev/*'
+      # Majors get their own PRs so they don't hold back minor/patch updates.
       npm-dependencies:
         patterns:
           - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:

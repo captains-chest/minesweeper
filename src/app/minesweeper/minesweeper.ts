@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GameLayout } from './game-layout/game-layout';
 import { GameSession } from './game-session';
 import { Hero } from './hero/hero';

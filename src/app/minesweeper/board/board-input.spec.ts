@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vite-plus/test';
 import { createMinefield } from '../minefield';
 import { initialBoardInputState, reduceBoardInput, tabIndexFor } from './board-input';
 

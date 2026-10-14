@@ -1,6 +1,6 @@
 import '@angular/compiler';
 import { createEnvironmentInjector, type EnvironmentInjector } from '@angular/core';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { BrowserClock, CLOCK } from './clock';
 import { GameSession } from './game-session';
 import { PlayerRecord } from './player-record';
