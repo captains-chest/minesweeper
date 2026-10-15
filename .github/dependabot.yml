@@ -12,6 +12,9 @@ updates:
     ignore:
       - dependency-name: 'typescript'
         update-types: ['version-update:semver-major']
+      # Hold @types/node at the Node major we run (24 in CI, 22 on Cloudflare Pages).
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
     groups:
       # vite-plus pins its own Vite core; the `vite` catalog alias in pnpm-workspace.yaml must
       # move with it, so keep them in one PR. CI fails if they drift apart.
