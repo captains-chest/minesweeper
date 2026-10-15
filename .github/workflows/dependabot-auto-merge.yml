@@ -1,18 +1,34 @@
 name: Dependabot auto-merge
 
-# Turns on GitHub auto-merge (squash) for Dependabot PRs. The PR merges only once the
-# required CI checks in the branch ruleset pass; a red build blocks it.
+# Patch and minor Dependabot updates: turn on GitHub auto-merge (squash). The PR merges only
+# once the required checks in the branch ruleset pass; a red build blocks it.
+#
+# A merge made with GITHUB_TOKEN does not fire `push` workflows, so main would never get
+# CI, CodeQL or E2E for it. GITHUB_TOKEN may still send workflow_dispatch, so after the
+# merge lands this job dispatches those workflows on main itself. No PAT or App needed.
+#
+# Major updates are left open for a human, labelled and commented.
 on: pull_request_target
 
 permissions:
   contents: write
   pull-requests: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: dependabot-auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   auto-merge:
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 30
+    env:
+      PR_URL: ${{ github.event.pull_request.html_url }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
     steps:
       - name: Dependabot metadata
         id: meta
@@ -20,8 +36,48 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Enable auto-merge
-        run: gh pr merge --auto --squash "$PR_URL"
+      - name: Leave major updates for review
+        if: steps.meta.outputs.update-type == 'version-update:semver-major'
         env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPENDENCIES: ${{ steps.meta.outputs.dependency-names }}
+        run: |
+          gh label create major-update --color B60205 \
+            --description "Major dependency update; needs a manual review" 2>/dev/null || true
+          gh pr edit "$PR_URL" --add-label major-update
+          marker='<!-- dependabot-major-update -->'
+          if ! gh pr view "$PR_URL" --json comments --jq '.comments[].body' | grep -qF "$marker"; then
+            gh pr comment "$PR_URL" --body "$marker
+          Major update ($DEPENDENCIES), so this one is not auto-merged. Review and merge by hand."
+          fi
+
+      - name: Enable auto-merge
+        id: enable
+        if: >-
+          steps.meta.outputs.update-type == 'version-update:semver-patch' ||
+          steps.meta.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr merge --auto --squash "$PR_URL"
+
+      - name: Wait for the merge
+        id: wait
+        if: steps.enable.outcome == 'success'
+        run: |
+          for _ in $(seq 1 50); do
+            state=$(gh pr view "$PR_URL" --json state --jq .state)
+            echo "PR state: $state"
+            if [ "$state" = MERGED ]; then
+              echo "merged=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [ "$state" = CLOSED ]; then
+              exit 0
+            fi
+            sleep 30
+          done
+          echo "Not merged within 25 minutes; main workflows were not dispatched."
+
+      - name: Run CI, CodeQL and E2E on main
+        if: steps.wait.outputs.merged == 'true'
+        run: |
+          for workflow in ci.yml codeql.yml e2e.yml; do
+            gh workflow run "$workflow" --ref main
+          done
