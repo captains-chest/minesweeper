@@ -18,23 +18,23 @@
   "private": true,
   "packageManager": "pnpm@11.9.0",
   "dependencies": {
-    "@angular/common": "^22.2.2",
-    "@angular/compiler": "^22.2.2",
-    "@angular/core": "^22.2.2",
-    "@angular/forms": "^22.2.2",
-    "@angular/platform-browser": "^22.2.2",
-    "@angular/router": "^22.2.2",
+    "@angular/common": "^22.2.3",
+    "@angular/compiler": "^22.2.3",
+    "@angular/core": "^22.2.3",
+    "@angular/forms": "^22.2.3",
+    "@angular/platform-browser": "^22.2.3",
+    "@angular/router": "^22.2.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/build": "^22.2.2",
-    "@angular/cli": "^22.2.2",
-    "@angular/compiler-cli": "^22.2.2",
-    "@playwright/test": "^1.64.0",
+    "@angular/build": "^22.2.3",
+    "@angular/cli": "^22.2.3",
+    "@angular/compiler-cli": "^22.2.3",
+    "@playwright/test": "^1.64.1",
     "@types/node": "^24.19.2",
     "typescript": "~6.0.2",
     "vite-plus": "catalog:",
-    "wrangler": "^4.149.0"
+    "wrangler": "^4.151.0"
   }
 }
